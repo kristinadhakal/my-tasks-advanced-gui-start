@@ -29,10 +29,14 @@ body {
 
 button {
   float: right;
-  background-color: red;
-  color: white;
+  background-color: #ffc9de;
+  color: grey;
   border: none;
   padding: 2px 5px;
   border-radius: 5px;
   border-color: white;
+}
+
+input[type="checkbox"] {
+  margin-right: 10px;
 }

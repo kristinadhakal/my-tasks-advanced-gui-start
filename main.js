@@ -57,11 +57,9 @@ function initTasks() {
 }
 
 function displayTasks() {
-  let outputStr = "";
   for (let i = 0; i < tasks.length; i++) {
-    outputStr += getTaskHTMLStr(tasks[i], i);
+    tasksEl.appendChild(getTaskHTML(tasks[i], i));
   }
-  tasksEl.innerHTML = outputStr;
 }
 
 function newTask(taskDescription) {
@@ -75,12 +73,36 @@ function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-function getTaskHTMLStr(task, index) {
-  return `
-    <div>
-    <input type="checkbox">
-       ${task.description}
-       <button>Remove</button>
-    </div>
-  `;
+function getTaskHTML(task) {
+  // User JavaScript to build to Task <div>
+
+  // Check Box Element
+  let checkboxEl = document.createElement("input");
+  checkboxEl.type = "checkbox";
+  checkboxEl.addEventListener("input", checkbBoxHandler);
+
+  // Task Description Text Node
+  let textEl = document.createTextNode(task.description);
+
+  // Remove Button
+  let buttonEl = document.createElement("button");
+  buttonEl.innerHTML = "Remove";
+  buttonEl.addEventListener("click", removeBtnHandlder);
+
+  // Add Everything to a div element
+  let divEl = document.createElement("div");
+  divEl.appendChild(checkboxEl);
+  divEl.appendChild(textEl);
+  divEl.appendChild(buttonEl);
+
+  return divEl;
+}
+
+//Event Fucntion{
+function checkbBoxHandler(e) {
+  console.log(e.target);
+}
+
+function removeBtnHandlder(e) {
+  console.log(e.target);
 }
