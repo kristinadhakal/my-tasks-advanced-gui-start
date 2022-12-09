@@ -57,6 +57,7 @@ function initTasks() {
 }
 
 function displayTasks() {
+  tasksEl.innerHTML = "";
   for (let i = 0; i < tasks.length; i++) {
     tasksEl.appendChild(getTaskHTML(tasks[i], i));
   }
@@ -66,6 +67,7 @@ function newTask(taskDescription) {
   return {
     description: taskDescription,
     completed: "",
+    completed: false,
   };
 }
 
@@ -73,12 +75,14 @@ function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-function getTaskHTML(task) {
+function getTaskHTML(task, index) {
   // User JavaScript to build to Task <div>
 
   // Check Box Element
   let checkboxEl = document.createElement("input");
   checkboxEl.type = "checkbox";
+  checkboxEl.dataset.index = index;
+  checkboxEl.checked = task.completed;
   checkboxEl.addEventListener("input", checkbBoxHandler);
 
   // Task Description Text Node
@@ -87,6 +91,7 @@ function getTaskHTML(task) {
   // Remove Button
   let buttonEl = document.createElement("button");
   buttonEl.innerHTML = "Remove";
+  buttonEl.dataset.index = index;
   buttonEl.addEventListener("click", removeBtnHandlder);
 
   // Add Everything to a div element
@@ -100,9 +105,18 @@ function getTaskHTML(task) {
 
 //Event Fucntion{
 function checkbBoxHandler(e) {
+  // Get index od tasks to toggle
+  let taskIndex = +e.target.dataset.index;
+  let tasks = tasks[tasksIndex];
+  tasks.completed = !tasks.completed;
+
   console.log(e.target);
 }
 
 function removeBtnHandlder(e) {
-  console.log(e.target);
+  // Get index of task to remove
+  let taskIndex = e.target.dataset.index;
+  tasks.splice(taskIndex, 1);
+  saveTasks();
+  displayTasks();
 }
